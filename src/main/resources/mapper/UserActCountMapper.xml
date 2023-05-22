@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.UserActCountMapper">
+
+    <select id="selectCountByaddress" resultType="com.example.ebusiness.entity.typeCount">
+        SELECT act_type actType,sum(count) counts FROM `user_act_count`
+            <where>
+        <if test="address !=null and address !=''">
+            address like  concat('%', #{address}, '%')
+        </if>
+    </where> GROUP BY act_type
+    </select>
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select sum(count) from user_act_count where act_type = 2
+        <if test="address !=null and address !=''">
+         and   address like  concat('%', #{address}, '%')
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.RuleUserTagMapper">
+
+    <select id="selectTime" resultType="com.example.ebusiness.entity.activeTime">
+        select
+               r.active_time as activeTime,count(active_time) as counts
+        from
+        <if test="time == 1">
+            rule_user_tag_one r
+        </if>
+        <if test="time == 2">
+            rule_user_tag_two r
+        </if>
+        <if test="time == 3">
+            rule_user_tag_three r
+        </if>
+        <if test="time == 4">
+            rule_user_tag_four r
+        </if>
+
+        <where>
+
+            <if test="address != null and address !='' ">
+                    address LIKE   concat('%', #{address}, '%')
+            </if>
+        </where>
+        GROUP BY  active_time
+    </select>
+
+    <select id="selectPriceLike" resultType="com.example.ebusiness.entity.activePrice">
+        select
+               r.price_like as activePrice,count(active_time) as counts
+        from
+        <if test="time == 1">
+        rule_user_tag_one r
+        </if>
+        <if test="time == 2">
+            rule_user_tag_two r
+        </if>
+        <if test="time == 3">
+            rule_user_tag_three r
+        </if>
+        <if test="time == 4">
+            rule_user_tag_four r
+        </if>
+        <where>
+
+            <if test="address != null and address !='' ">
+                and   address LIKE   concat('%', #{address}, '%')
+            </if>
+
+        </where>
+        GROUP BY  price_like
+    </select>
+
+
+    <select id="ActPriceNum" resultType="com.example.ebusiness.entity.activePrice">
+
+        select price_like activePrice,sum(price_like_num) as counts  from
+        <if test="time == 1">
+            rule_user_tag_one r
+        </if>
+        <if test="time == 2">
+            rule_user_tag_two r
+        </if>
+        <if test="time == 3">
+            rule_user_tag_three r
+        </if>
+        <if test="time == 4">
+            rule_user_tag_four r
+        </if>
+        <where>
+
+            <if test="address != null and address !='' ">
+                and   address LIKE   concat('%', #{address}, '%')
+            </if>
+
+        </where>
+        GROUP BY  price_like
+    </select>
+    <select id="ActTimeNum" resultType="com.example.ebusiness.entity.activeTime">
+
+        select  active_time as activeTime,sum(active_time_num) as counts  from
+        <if test="time == 1">
+            rule_user_tag_one r
+        </if>
+        <if test="time == 2">
+            rule_user_tag_two r
+        </if>
+        <if test="time == 3">
+            rule_user_tag_three r
+        </if>
+        <if test="time == 4">
+            rule_user_tag_four r
+        </if>
+        <where>
+
+            <if test="address != null and address !='' ">
+                and   address LIKE   concat('%', #{address}, '%')
+            </if>
+
+        </where>
+        GROUP BY  active_time
+    </select>
+    <select id="TimePriceNum" resultType="com.example.ebusiness.entity.timePriceNum">
+
+        select active_time activeTime,price_like priceLike,count(*) as timePriceCount from
+        <if test="time == 1">
+            rule_user_tag_one r
+        </if>
+        <if test="time == 2">
+            rule_user_tag_two r
+        </if>
+        <if test="time == 3">
+            rule_user_tag_three r
+        </if>
+        <if test="time == 4">
+            rule_user_tag_four r
+        </if>
+        <where>
+
+            <if test="address != null and address !='' ">
+                and   address LIKE   concat('%', #{address}, '%')
+            </if>
+
+        </where>
+        GROUP BY  activeTime,priceLike
+    </select>
+</mapper>

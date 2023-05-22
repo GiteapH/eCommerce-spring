@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.SkuPriMapper">
+
+
+    <select id="getPriceByAddress" resultType="Double">
+        select sum(sum_price)*num from sku_price
+        <where>
+        <if test="address != null and address != ''">
+          address  like  concat('%', #{address}, '%')
+        </if>
+        </where>
+    </select>
+
+
+
+</mapper>
