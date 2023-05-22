@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.CenDisMapper">
+
+<select id="CenDisByCondition" resultType="java.util.HashMap">
+    select sum(less5) as less5,sum(less10) as less10,sum(less15) as less15,sum(less20) as less20,count(*) as otal from centralized_distribution
+    <where>
+        <if test="address != null and address != ''">
+            and    address like   concat('%', #{address}, '%')
+        </if>
+    </where>
+</select>
+    <select id="getInfoByCondition" resultType="com.example.ebusiness.controller.domain.SkuInfo">
+        select sku,address from centralized_distribution
+        <where>
+            <if test="less5 != null and less5 != ''">
+                and less5 = #{less5}
+            </if>
+            <if test="less10 != null and less10 != ''">
+               and less10 = #{less10}
+            </if>
+            <if test="less15 != null and less15 != ''">
+                and less15 = #{less15}
+            </if>
+            <if test="less20 != null and less20 != ''">
+                and less20 = #{less20}
+            </if>
+
+            <if test="female != null and female != ''">
+                and female = #{female}
+            </if>
+            <if test="male != null and male != ''">
+                and male = #{male}
+            </if>
+            <if test="address != null and address != ''">
+            and    address like   concat('%', #{address}, '%')
+            </if>
+
+        </where>
+    </select>
+    <select id="getFemale" resultType="java.lang.Integer">
+        select sum(female) from centralized_distribution
+        <if test="address != null and address != ''">
+            where     address like concat('%', #{address}, '%')
+    </if>
+    </select>
+    <select id="getMale" resultType="java.lang.Integer">
+        select sum(male) from centralized_distribution
+          <if test="address != null and address != ''">
+              where  address like concat('%', #{address}, '%')
+          </if>
+    </select>
+    <select id="getByProCitCoun" resultType="com.example.ebusiness.entity.activeMap" >
+        select count(*) as counts
+               <if test="province != null and province != '' ">
+               ,city
+               </if>
+               <if test="city != null and city != '' ">
+               ,county
+              </if>
+        from  centralized_distribution
+        <where>
+            <if test="province != null and province != '' ">
+                province like  concat('%', #{province}, '%') and city != ''
+            </if>
+            <if test="city != null and city != '' ">
+                city like  concat('%', #{city}, '%') and city != ''
+            </if>
+           </where>
+           group by
+        <if test="province != null and province != '' ">
+            city
+        </if>
+        <if test="city != null and city != '' ">
+            county
+        </if>
+having  counts > 1000
+
+    </select>
+    <select id="getAll" resultType="com.example.ebusiness.entity.activeMap">
+        select count(*) as counts ,province from  centralized_distribution group by province order by counts desc  limit 10
+    </select>
+<!--    <select id="CountBySexAddress" >-->
+<!--        select sum(less5) as less5,sum(less10) as less10,sum(less15) as less15,sum(less20) as less20,count(*) as total from  centralized_distribution where male = 1 and address LIKE '%上海%'-->
+<!--    </select>-->
+
+</mapper>

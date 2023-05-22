@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.ActMapper">
+
+    <select id="select1" resultType="java.lang.Integer">
+        select 1;
+    </select>
+
+    <select id="getCountOrType" resultType="com.example.ebusiness.controller.domain.ActRequest">
+        select address,sum(count),act_type from act_type_count where address like  concat('%', #{address}, '%') GROUP BY act_type,sku;
+    </select>
+    <select id="getCountByType" resultType="integer">
+        select sum(count) from act_type_count
+        <where>
+            <if test="actType != null and actType != '' " >
+                act_type = #{actType}
+            </if>
+            <if test="address != null and address != '' ">
+               and address like  concat('%', #{address}, '%')
+            </if>
+        </where>
+
+    </select>
+    <select id="getCount" resultType="integer">
+        select sum(count) from act_type_count
+    </select>
+    <select id="getTotalOrder" resultType="integer">
+        select sum(count) from act_type_count where act_type = 2
+        <if test="address !=null and address !=''">
+        and   address like  concat('%', #{address}, '%')
+    </if>
+    </select>
+    <select id="CountByType" resultType="com.example.ebusiness.entity.typeCount">
+        SELECT act_type actType,sum(count) counts FROM `act_type_count` <where>
+        <if test="address !=null and address !=''">
+            address like  concat('%', #{address}, '%')
+        </if>
+    </where> GROUP BY act_type
+    </select>
+
+</mapper>

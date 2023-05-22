@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.RfmMapper">
+
+
+
+    <select id="getByRFM" resultType="com.example.ebusiness.entity.Rfm">
+        select * from rfm
+
+            <where>
+                <if test="Recency != null and Recency != ''">
+                    recency = #{Recency}
+                </if>
+                <if test="Frequency != null and Frequency != ''">
+                    and frequency = #{Frequency}
+                </if>
+                <if test="Monetary != null and Monetary != ''">
+                    and consumption_capacity = #{Monetary}
+                </if>
+
+
+            </where>
+
+    </select>
+
+
+</mapper>
