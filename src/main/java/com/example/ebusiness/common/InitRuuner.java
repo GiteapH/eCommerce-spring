@@ -3,7 +3,6 @@ package com.example.ebusiness.common;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.http.HttpUtil;
 import com.example.ebusiness.mapper.ActMapper;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -27,7 +26,6 @@ public class InitRuuner implements ApplicationRunner {
 
         // 发送一次异步的web请求，来初始化 tomcat连接
         ThreadUtil.execAsync(() -> {
-
             actMapper.select1();
             log.info("启动项目数据库启动查询成功" );
             HttpUtil.get("http://localhost:9999/");
