@@ -10,10 +10,11 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+
 /**
- * <p>
+ * <p>这个是我的项目
+  * http://10.10.74.225:9999/swagger-ui/index.html
  * 访问路径：http://localhost:9999/swagger-ui/index.html
- * http://10.10.74.225:9999/swagger-ui/index.html
  *
  * </p>
  */

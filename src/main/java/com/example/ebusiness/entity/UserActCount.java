@@ -40,4 +40,7 @@ public class UserActCount implements Serializable {
     private Integer count;
 
     private String address;
+
+
+
 }

@@ -20,13 +20,11 @@ public class RepurController {
     @Autowired
     RepurService repurService;
 
-    @ApiOperation("获取复购率")
+    @ApiOperation("获取某地区复购率")
     @GetMapping("/repurchaseRate")
-    public Result getRepurRate(){
-        List<Repurchase> list = repurService.list();
-//
-//        DecimalFormat df=new DecimalFormat("0.00");
-//        String s = df.format(((double)count / (double)count1)*100 );
+    public Result getRepurRate(@RequestParam(value = "address",required = false)String address){
+//        repurService.getRepurRate(address);
+
         return Result.success();
     }
     @ApiOperation("根据地区获取信息")
