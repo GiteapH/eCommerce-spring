@@ -3,6 +3,7 @@ package com.example.ebusiness.controller;
 import com.example.ebusiness.UDF.CN2HashUnicodeUDF;
 import com.example.ebusiness.common.Result;
 import com.example.ebusiness.entity.forecastPirceParams;
+import com.example.ebusiness.utils.PathUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.spark.ml.feature.VectorAssembler;
@@ -17,6 +18,9 @@ import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,16 +38,18 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class forecastApi {
     SQLContext sqlContext = com.example.ebusiness.spark.sparkBuilder.getSparkBuilder().getContext();
-    RandomForestRegressionModel modelPrice1 = RandomForestRegressionModel.load("models(1)/priceForecastModels/1");
-    RandomForestRegressionModel modelPrice2 = RandomForestRegressionModel.load("models(1)/priceForecastModels/2");
-    RandomForestRegressionModel modelLoss1 = RandomForestRegressionModel.load("models(1)/lossForecastModels/1");
-    RandomForestRegressionModel modelLoss2 = RandomForestRegressionModel.load("models(1)/lossForecastModels/2");
-    RandomForestRegressionModel modelBack1 = RandomForestRegressionModel.load("models(1)/backForecastModels/1");
-    RandomForestRegressionModel modelBack2 = RandomForestRegressionModel.load("models(1)/backForecastModels/2");
+    RandomForestRegressionModel modelPrice1 = RandomForestRegressionModel.load(PathUtils.getPath() +"/priceForecastModels/1");
+    RandomForestRegressionModel modelPrice2 = RandomForestRegressionModel.load(PathUtils.getPath()+"/priceForecastModels/2");
+    RandomForestRegressionModel modelLoss1 = RandomForestRegressionModel.load(PathUtils.getPath()+"/lossForecastModels/1");
+    RandomForestRegressionModel modelLoss2 = RandomForestRegressionModel.load(PathUtils.getPath()+"/lossForecastModels/2");
+    RandomForestRegressionModel modelBack1 = RandomForestRegressionModel.load(PathUtils.getPath()+"/backForecastModels/1");
+    RandomForestRegressionModel modelBack2 = RandomForestRegressionModel.load(PathUtils.getPath()+"/backForecastModels/2");
+    static {
+        System.err.println(PathUtils.getPath()+"/backForecastModels/1");
+    }
     @PostMapping("/forecast/price")
     @ApiOperation(value = "预测支出线上推理")
     public Result forecastPrice(@RequestBody forecastPirceParams forecastPrice, @RequestParam Integer model_time_window){
-
         Row row = RowFactory.create(forecastPrice.getId(),forecastPrice.getTime_window(),forecastPrice.getAge(),forecastPrice.getGender(),forecastPrice.getRfm_tag(),forecastPrice.getProvince(),forecastPrice.getCity());
         StructType schema = new StructType(new StructField[] {
                 new StructField("user", DataTypes.IntegerType, false, Metadata.empty()),

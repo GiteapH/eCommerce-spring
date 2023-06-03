@@ -2,4 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.ebusiness.mapper.BaseUserTagMapper">
 
+    <select id="getSubsetCities" resultType="com.example.ebusiness.controller.domain.Area">
+        select count(*) as counts  <if test="province == null and city == null  ">,province</if>
+                                   <if test="province != null and province != ''">,city</if>
+                                   <if test="city != null and city != ''">,county</if>
+from  repurchase INNER JOIN base_user_tag on base_user_tag.user_id = repurchase.id where repurchase =#{repurchase}
+        <if test="province == null and city == null  "> GROUP BY province</if>
+        <if test="province != null and province != ''">and province like  concat('%', #{province}, '%') GROUP BY city</if>
+        <if test="city != null and city != ''">and city like concat('%', #{city}, '%')  GROUP BY county</if>
+    </select>
 </mapper>

@@ -43,13 +43,13 @@ public class UserActController {
     private IUserActService userActService;
 
 
-   @ApiOperation("获取用户行为及信息")
-   @GetMapping("/UserTypeCountById")
-   public Result getUserTypeCount(@RequestParam("userId") String userId){
-       List<typeCount> typeCountList = userActService.getUserTypeCount(userId);
+    @ApiOperation("获取用户行为及信息")
+    @GetMapping("/UserTypeCountById")
+    public Result getUserTypeCount(@RequestParam("userId") String userId) {
+        List<typeCount> typeCountList = userActService.getUserTypeCount(userId);
 
-       return Result.success(typeCountList);
-   }
+        return Result.success(typeCountList);
+    }
 
     /**
      * 导出接口

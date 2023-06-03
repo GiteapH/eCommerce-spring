@@ -1,7 +1,10 @@
 package com.example.ebusiness.mapper;
 
+import com.example.ebusiness.controller.domain.Area;
 import com.example.ebusiness.entity.BaseUserTag;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BaseUserTagMapper extends BaseMapper<BaseUserTag> {
 
+    List<Area> getSubsetCities(String province, String city,String repurchase);
 }

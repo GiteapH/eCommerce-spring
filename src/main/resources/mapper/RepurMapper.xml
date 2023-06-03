@@ -2,4 +2,67 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.ebusiness.mapper.RepurMapper">
 
+    
+    
+    <select id="selectByGender" resultType="com.example.ebusiness.entity.typeCount">
+        select gender  ,count(gender) as counts
+        from
+             repurchase
+                 inner JOIN base_user_tag
+                     on base_user_tag.user_id = repurchase.id
+        where repurchase = #{repurchase}
+          <if test="address != null and address != '' ">
+              and
+              address  like  concat('%', #{address}, '%')
+          </if>
+
+        GROUP BY base_user_tag.gender;
+    </select>
+
+    <select id="selectByAge" resultType="com.example.ebusiness.entity.typeCount">
+        select age  ,count(age) as counts
+        from
+            repurchase
+                inner JOIN base_user_tag
+                           on base_user_tag.user_id = repurchase.id
+        where repurchase = #{repurchase}
+          <if test="address != null and address != '' ">
+        and
+        address  like  concat('%', #{address}, '%')
+    </if>
+
+        GROUP BY base_user_tag.age;
+    </select>
+
+    <select id="selectByCount" resultType="com.example.ebusiness.entity.typeCount">
+        select user_id AS actType,count(user_id) as counts
+        from
+        repurchase
+        INNER JOIN base_user_tag on base_user_tag.user_id = repurchase.id
+        where repurchase = #{repurchase}
+          <if test="address != null and address != '' ">
+        and
+        address  like  concat('%', #{address}, '%')
+    </if>
+        GROUP BY user_id ORDER BY counts desc limit 5;
+
+    </select>
+    <select id="selectByPerCount" resultType="com.example.ebusiness.entity.typeCount">
+        select repurchase as actType,count(repurchase) as counts
+        from
+             repurchase
+                 INNER JOIN base_user_tag on base_user_tag.user_id = repurchase.id
+       <where>
+          <if test="address != null and address != '' ">
+           address  like  concat('%', #{address}, '%')
+       </if>
+       </where>
+        GROUP BY repurchase ORDER BY counts desc;
+
+    </select>
+    <select id="getUsersRepur" resultType="com.example.ebusiness.entity.Repurchase">
+
+        SELECT purchase_num,last_act_date,last_act_time from repurchase where repurchase.id in (#{userIdList}) ORDER BY last_act_date,last_act_time;
+
+    </select>
 </mapper>

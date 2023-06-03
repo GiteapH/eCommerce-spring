@@ -25,6 +25,42 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>netty-buffer</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>netty-codec</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>netty-common</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>netty-handler</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>netty-resolver</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>netty-transport</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--连接池子 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <exclusions>
                 <exclusion>
@@ -106,6 +142,14 @@
                 <exclusion>
                     <artifactId>jackson-core-asl</artifactId>
                     <groupId>org.codehaus.jackson</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>netty</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>netty-all</artifactId>
+                    <groupId>io.netty</groupId>
                 </exclusion>
             </exclusions>
         </dependency>

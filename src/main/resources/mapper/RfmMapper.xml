@@ -22,6 +22,18 @@
             </where>
 
     </select>
+    <select id="selectByRFM" resultType="com.example.ebusiness.entity.typeCount">
+        select  rfm_tag AS actType ,count(rfm_tag) as counts
+        from
+            repurchase
+                INNER JOIN rfm on rfm.user_id = repurchase.id INNER join base_user_tag on base_user_tag.user_id = repurchase.id
+        where  repurchase = #{repurchase}
+          <if test="address != null and address != '' ">
+        and
+        address  like  concat('%', #{address}, '%')
+          </if>
+        GROUP BY rfm.rfm_tag;
+    </select>
 
 
 </mapper>

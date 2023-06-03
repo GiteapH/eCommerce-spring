@@ -3,6 +3,7 @@ package com.example.ebusiness.controller;
 import com.example.ebusiness.common.Result;
 import com.example.ebusiness.controller.domain.RfmTag;
 import com.example.ebusiness.entity.Rfm;
+import com.example.ebusiness.entity.typeCount;
 import com.example.ebusiness.service.RfmService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +21,12 @@ public class RfmController {
     @Autowired
     RfmService rfmService;
 
-
+    @ApiOperation("复购用户中的rfm分布")
+    @GetMapping("/selectByRFM")
+    public Result selectByRFM(@RequestParam(value = "repurchase",required = false)String repurchase, @RequestParam(value = "address",required = false) String address){
+        List<typeCount> repurchaseList =  rfmService.selectByRFM(repurchase,address);
+        return Result.success(repurchaseList);
+    }
     @ApiOperation("根据rfm三种条件获取列表")
     @GetMapping("getByRfm")
     public Result getByRfm(@RequestParam(value = "recency" , required = false) String Recency,@RequestParam(value = "frequency" , required = false) String Frequency,@RequestParam(value = "monetary", required = false) String Monetary){

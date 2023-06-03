@@ -10,6 +10,8 @@ import javax.servlet.ServletOutputStream;
 import java.net.URLEncoder;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.ebusiness.controller.domain.Area;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -45,6 +47,16 @@ public class BaseUserTagController {
     public Result findOne(@RequestParam(value = "userId") Integer userId) {
         return Result.success(baseUserTagService.getById(userId));
     }
+
+    @ApiOperation("/-复购用户/非复购用户中的子级城市云图 分布图/柱状图")
+    @GetMapping("/getSubsetCities")
+    public Result getSubsetCities(@RequestParam(value = "province",required = false)String province
+                       ,@RequestParam(value = "city",required = false)String city,
+                                  @RequestParam(value = "repurchase",required = false)String repurchase) {
+        List<Area> subCity = baseUserTagService.getSubsetCities(province,city,repurchase);
+        return Result.success(subCity);
+    }
+
 
 
 

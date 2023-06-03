@@ -25,14 +25,13 @@ import java.io.FileNotFoundException;
 public class MapController {
 
 
-    @GetMapping("/getMapData")
+    @GetMapping(value = "/getMapData",produces = {"application/json;charset=UTF-8"})
     @ApiOperation("获取地图数据")
     public String getMap(@RequestParam(value = "code" )String code)  {
 //        File file = getResFile(code);
-        log.info(code);
         String fileName =  code + ".json";
         String mapData = JSONHelper.ResolveJsonFileToString(fileName);
-
+        log.error(mapData);
         return mapData;
     }
 }

@@ -1,7 +1,10 @@
 package com.example.ebusiness.service;
 
+import com.example.ebusiness.controller.domain.Area;
 import com.example.ebusiness.entity.BaseUserTag;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IBaseUserTagService extends IService<BaseUserTag> {
 
+    List<Area> getSubsetCities(String province, String city, String repurchase);
 }
