@@ -61,8 +61,28 @@
 
     </select>
     <select id="getUsersRepur" resultType="com.example.ebusiness.entity.Repurchase">
-
-        SELECT purchase_num,last_act_date,last_act_time from repurchase where repurchase.id in (#{userIdList}) ORDER BY last_act_date,last_act_time;
+        SELECT id,purchase_num,last_act_date from repurchase where repurchase.id in (${userIdList,jdbcType=VARCHAR}) ORDER BY last_act_date;
+    </select>
+    <select id="getAllUserTrade" resultType="com.example.ebusiness.controller.domain.UserTrade">
+        SELECT  last_act_date ,SUM(IF(repurchase=1,purchase_num,0)) AS repurchase_shop_num,SUM(IF(repurchase=0,purchase_num,0)) as no_repurchase_num_sum ,count(sku) as sku_num from repurchase
+       where
+        <if test="address != null and address != '' ">
+            and  address  like  concat('%', #{address}, '%')
+        </if>
+        GROUP BY last_act_date ORDER BY last_act_date
+    </select>
+    <select id="getListByWeek" resultType="com.example.ebusiness.controller.domain.ListWeek">
+        SELECT `week`,time_point,sum(purchase_num) sumPurchase
+        from
+             (SELECT  WEEKDAY(last_act_date) as `week`,HOUR(last_act_time) as time_point,purchase_num,sku
+             from
+             repurchase
+             WHERE repurchase = #{repurchase}
+                 <if test="address != null and address != ''">
+                  and address  like  concat('%', #{address}, '%')
+                 </if>
+           ) t
+        GROUP BY `week`,time_point;
 
     </select>
 </mapper>

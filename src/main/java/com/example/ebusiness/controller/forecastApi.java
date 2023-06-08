@@ -18,9 +18,7 @@ import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import org.xerial.snappy.Snappy;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,9 +42,6 @@ public class forecastApi {
     RandomForestRegressionModel modelLoss2 = RandomForestRegressionModel.load(PathUtils.getPath()+"/lossForecastModels/2");
     RandomForestRegressionModel modelBack1 = RandomForestRegressionModel.load(PathUtils.getPath()+"/backForecastModels/1");
     RandomForestRegressionModel modelBack2 = RandomForestRegressionModel.load(PathUtils.getPath()+"/backForecastModels/2");
-    static {
-        System.err.println(PathUtils.getPath()+"/backForecastModels/1");
-    }
     @PostMapping("/forecast/price")
     @ApiOperation(value = "预测支出线上推理")
     public Result forecastPrice(@RequestBody forecastPirceParams forecastPrice, @RequestParam Integer model_time_window){
@@ -114,7 +109,10 @@ public class forecastApi {
         Row[] predictionObj = (Row[])(forecast.collect());
         Row prediction = predictionObj[0];
         Map<String,String> map = new HashMap<>();
-        map.put("prediction",prediction.getAs("prediction"));
+        Double predictionNum = prediction.getAs("prediction");
+        double diff = 100-predictionNum;
+        predictionNum = predictionNum + (diff*getLogistic(forecastPrice.getTime_window()));
+        map.put("prediction",predictionNum.toString());
         map.put("age",prediction.getAs("age"));
         map.put("user",forecastPrice.getId().toString());
         map.put("time_window",prediction.getAs("time_window"));
@@ -153,7 +151,10 @@ public class forecastApi {
         Row[] predictionObj = (Row[])(forecast.collect());
         Row prediction = predictionObj[0];
         Map<String,String> map = new HashMap<>();
-        map.put("prediction",prediction.getAs("prediction"));
+        Double predictionNum = prediction.getAs("prediction");
+        double diff = 100-predictionNum;
+        predictionNum = predictionNum + (diff*getLogistic(forecastPrice.getTime_window()));
+        map.put("prediction",predictionNum.toString());
         map.put("age",prediction.getAs("age"));
         map.put("user",forecastPrice.getId().toString());
         map.put("time_window",prediction.getAs("time_window"));
@@ -199,5 +200,11 @@ public class forecastApi {
         // 转换训练集和测试集的格式
         row = row.na().drop();
         return assembler.transform(row);
+    }
+
+    public static double getLogistic(int x){
+        double x1 = 1 / (1 + Math.exp(-1.4 * (x - 15)));
+        System.err.println(x1);
+        return x1;
     }
 }

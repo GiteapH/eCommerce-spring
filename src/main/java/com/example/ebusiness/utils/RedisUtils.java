@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 //import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.connection.RedisConnectionCommands;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * redis 工具类
  **/
+@Slf4j
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 @Component
 public class RedisUtils {
@@ -45,6 +48,15 @@ public class RedisUtils {
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.afterPropertiesSet();
         this.redisTemplate = redisTemplate;
+    }
+
+    /** 初始化redis,减少第一次发送邮件时 时间过长
+     * 发送ping命令
+     * redis 返回pong
+     */
+    public static void ping() {
+        String res = (String) staticRedisTemplate.execute(RedisConnectionCommands::ping);
+        log.info("Redis ping ==== {}", res);
     }
 
     @PostConstruct

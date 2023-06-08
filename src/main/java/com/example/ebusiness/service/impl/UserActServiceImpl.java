@@ -23,9 +23,6 @@ import java.util.List;
 public class UserActServiceImpl extends ServiceImpl<UserActMapper, UserAct> implements IUserActService {
     @Resource
     UserActMapper userActMapper;
-    @Resource
-    BaseUserTagMapper baseUserTagMapper;
-
 
     @Override
     public List<typeCount> getUserTypeCount(String userId) {

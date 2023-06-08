@@ -34,6 +34,63 @@
           </if>
         GROUP BY rfm.rfm_tag;
     </select>
+    <select id="getUserListRfm" resultType="com.example.ebusiness.controller.domain.UsersRfm">
+        select  user_id,consumption_capacity,recency,frequency,consumption_capacity_num,recency_num,frequency_num,consumption_capacity_score,recency_score,rfm_tag
+        from
+             rfm
+        where user_id in (${userIdList,jdbcType=VARCHAR})
+          and
+              time = #{time}
+    </select>
+<select id="getScatterPlot" resultType="com.example.ebusiness.controller.domain.UsersRfm">
+    SELECT user_id,consumption_capacity_num,recency_num,frequency_num
+    from
+         rfm WHERE rfm_tag = #{rfmTag} and time = #{time}
+    <if test="address !=null and address != ''">
+     and  address LIKE   concat('%', #{address}, '%')
+  </if>
+limit 1000
+</select>
+    <select id="getRFMScore" resultType="com.example.ebusiness.controller.domain.tagRfm">
+        SELECT rfm_tag,avg(consumption_capacity_num) consumption_avg,avg(recency_num) recency_avg,avg(frequency_num) frequency_avg
+        from
+             rfm
+       WHERE rfm_tag in
+             <foreach item="item" collection="rfmTag" separator="," open="(" close=")" index="">
+         #{item}
+          </foreach>
+       and
+         time = #{time}
+        <if test="address !=null and address != ''">
+            and  address LIKE   concat('%', #{address}, '%')
+        </if>
+        GROUP BY rfm_tag
+    </select>
+    <select id="getPersonDistribution" resultType="com.example.ebusiness.entity.typeCount">
+        SELECT rfm_tag actType,count(user_id) counts from rfm WHERE
+        time = #{time}
+        <if test="address !=null and address != ''">
+            and  address LIKE   concat('%', #{address}, '%')
+        </if>
+         GROUP BY rfm_tag
+    </select>
+    <select id="getListByTag" resultType="com.example.ebusiness.entity.Rfm">
+        select * from rfm where rfm_tag = #{rfmTag} limit 150;
+    </select>
+    <select id="getAllTagList" resultType="com.example.ebusiness.entity.Rfm">
+        select * from rfm where  rfm_tag = #{rfmTag} and time =#{time} <if test="address != null and address != ''">
+           and   address  like  concat('%', #{address}, '%')
+    </if>
+limit 150;
+    </select>
+    <select id="getHeatMap" resultType="com.example.ebusiness.controller.domain.HeatMap">
+        SELECT recency_num,frequency_num , AVG(consumption_capacity_num) consumption_avg from rfm WHERE rfm_tag = #{rfmTag} and time = #{time}
+
+        <if test="address != null and address != ''">
+            and   address  like  concat('%', #{address}, '%')
+        </if>
+        GROUP BY recency_num,frequency_num ORDER BY consumption_avg
+    </select>
 
 
 </mapper>

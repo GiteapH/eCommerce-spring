@@ -31,7 +31,7 @@ public class MapController {
 //        File file = getResFile(code);
         String fileName =  code + ".json";
         String mapData = JSONHelper.ResolveJsonFileToString(fileName);
-        log.error(mapData);
+//        log.error(mapData);
         return mapData;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.ebusiness.controller;
 
 import com.example.ebusiness.common.Result;
+import com.example.ebusiness.controller.domain.ListWeek;
+import com.example.ebusiness.controller.domain.UserTrade;
 import com.example.ebusiness.entity.Repurchase;
 import com.example.ebusiness.entity.typeCount;
 import com.example.ebusiness.service.RepurService;
@@ -9,7 +11,10 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +26,7 @@ public class RepurController {
     @Autowired
     RepurService repurService;
 
-    @ApiOperation("获取某地区复购率")
+//    @ApiOperation("获取某地区复购率")
     @GetMapping("/repurchaseRate")
     public Result getRepurRate(@RequestParam(value = "address",required = false)String address){
 //        repurService.getRepurRate(address);
@@ -34,10 +39,7 @@ public class RepurController {
        List<Repurchase> repurchaseList =  repurService.getRepurByAddress(address);
        return Result.success(repurchaseList);
     }
-//    List<typeCount> selectByAge(String address);
-//    List<typeCount> selectByRFM(String address);
-//    List<typeCount> selectByCount(String address);
-//    List<typeCount> selectByPerCount(String address);
+
 
     @ApiOperation("复购用户中的年龄分布")
     @GetMapping("/selectByAge")
@@ -66,10 +68,25 @@ public class RepurController {
     }
     @ApiOperation("传参用户的历史交易复购数变化")
     @GetMapping("/getUsersRepur")
-    public Result getUsersRepur(@RequestParam("userIdList")List<String> userIdList){
+    public Result getUsersRepur(@RequestParam("userIdList")List<String> userIdList) throws UnsupportedEncodingException {
+       userIdList = Collections.singletonList(URLDecoder.decode(userIdList.toString(), "UTF-8"));
+        System.out.println(userIdList);
         List<Repurchase> list = repurService.getUsersRepur(userIdList.toString());
-        System.out.println(userIdList.toString());
         return Result.success(list);
+    }
+
+    @ApiOperation("地方的所有用户交易变化")
+    @GetMapping("/getAllUserTrade")
+    public Result getAllUserTrade(@RequestParam(value = "address",required = false)String address){
+       List<UserTrade> userTradeList =  repurService.getAllUserTrade(address);
+       return Result.success(userTradeList);
+    }
+
+    @ApiOperation("周一到周末的复购/非复购用户在某个时间点的购买数")
+    @GetMapping("getListByWeek")
+    public Result getListByWeek(@RequestParam(value = "address",required = false)String address,@RequestParam("repurchase") String repurchase){
+List<ListWeek> listWeeks= repurService.getListByWeek(address,repurchase);
+return Result.success(listWeeks);
     }
 
 }

@@ -14,11 +14,11 @@ import java.util.Map;
 public class JSONHelper {
 
 
-    public static void main(String[] args) {
-        String s = ResolveJsonFileToString("110000.json");
-        System.out.println("sss=" + s);
-
-    }
+//    public static void main(String[] args) {
+//        String s = ResolveJsonFileToString("110000.json");
+//        System.out.println("sss=" + s);
+//
+//    }
 
 
     /**
@@ -62,7 +62,7 @@ public class JSONHelper {
             }
             String defaultString = message.toString();
             result = defaultString.replace("\r\n", "").replaceAll(" +", "");
-            log.info("result={}", result);
+//            log.info("result={}", result);
 
         } catch (IOException e) {
             try {
@@ -82,7 +82,7 @@ public class JSONHelper {
                 }
                 String defaultString = message.toString();
                 result = defaultString.replace("\r\n", "").replaceAll(" +", "");
-                log.debug("for jar result={}", result);
+//                log.debug("for jar result={}", result);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
