@@ -16,7 +16,10 @@ import java.util.*;
  */
 public interface IUserActCountService extends IService<UserActCount> {
 
-    List<typeCount> getCount(String address);
+    List<typeCount> getCount(String address,String userId);
 
     Integer getTotalOrder(String address);
+
+    List<UserActCount> getUserTypeCount(String userId);
+
 }

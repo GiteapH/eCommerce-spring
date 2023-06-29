@@ -127,4 +127,21 @@
         </where>
         GROUP BY  activeTime,priceLike
     </select>
+    <select id="getById" resultType="com.example.ebusiness.entity.RuleUserTag">
+        select * from
+        <if test="type == 1">
+            rule_user_tag_one r
+        </if>
+        <if test="type == 2">
+            rule_user_tag_two r
+        </if>
+        <if test="type == 3">
+            rule_user_tag_three r
+        </if>
+        <if test="type == 4">
+            rule_user_tag_four r
+        </if>
+       where user_id =#{userId}
+
+    </select>
 </mapper>

@@ -9,6 +9,7 @@ import javax.servlet.ServletOutputStream;
 import java.net.URLEncoder;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.ebusiness.controller.domain.User;
 import com.example.ebusiness.entity.typeCount;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-05-29
  */
 @Api("用户个人接口")
+@CrossOrigin
 @RestController
 @RequestMapping("/user-act")
 public class UserActController {
@@ -46,11 +48,17 @@ public class UserActController {
     @ApiOperation("获取用户行为及信息")
     @GetMapping("/UserTypeCountById")
     public Result getUserTypeCount(@RequestParam("userId") String userId) {
-        List<typeCount> typeCountList = userActService.getUserTypeCount(userId);
+        List<User> typeCountList = userActService.getUserTypeCount(userId);
 
         return Result.success(typeCountList);
     }
+    @ApiOperation("获取用户行为及信息不分组")
+    @GetMapping("/AllCountById")
+    public Result AllCountById(@RequestParam("userId") String userId) {
+        List<UserAct>typeCountList = userActService.getTypeCount(userId);
 
+        return Result.success(typeCountList);
+    }
     /**
      * 导出接口
      */

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.ClvForecastMapper">
+
+
+
+    <select id="SelectTotalAndLoss" resultType="java.util.HashMap">
+        select SUM(forecast_price) sumPrice,SUM(forecast_price)/count(*) personal_avg,AVG(forecast_back) avgBack,AVG(forecast_loss) avgLoss
+        from
+             <if test="type == 1">
+                 clv_forecast_one
+             </if>
+        <if test="type == 7">
+            clv_forecast_seven
+        </if>
+        <if test="type == 14">
+            clv_forecast_fourteen
+        </if>
+        <if test="type == 30">
+            clv_forecast_thirty
+        </if>
+        <if test="type == 60">
+            clv_forecast_sixty
+        </if>
+
+        where
+              rfm_tag = #{tag}
+
+        <if test="address != null and address !='' ">
+            and
+            CONCAT(province,city,county) LIKE   concat('%', #{address}, '%')
+        </if>
+
+          AND model = #{model};
+
+    </select>
+<select id="SelectUserValue" resultType="com.example.ebusiness.controller.domain.userValue">
+    SELECT user_value,count(user_value) as counts
+    from
+    <if test="type == 1">
+        clv_forecast_one
+    </if>
+    <if test="type == 7">
+        clv_forecast_seven
+    </if>
+    <if test="type == 14">
+        clv_forecast_fourteen
+    </if>
+    <if test="type == 30">
+        clv_forecast_thirty
+    </if>
+    <if test="type == 60">
+        clv_forecast_sixty
+    </if>
+    WHERE
+        rfm_tag = #{tag}
+
+    <if test="address != null and address !='' ">
+        and
+        CONCAT(province,city,county) LIKE   concat('%', #{address}, '%')
+    </if>
+
+    AND model = #{model}
+
+    group by user_value;
+</select>
+    <select id="getById" resultType="com.example.ebusiness.entity.ClvForecast">
+        SELECT *
+        from
+        <if test="type == 1">
+            clv_forecast_one
+        </if>
+        <if test="type == 7">
+            clv_forecast_seven
+        </if>
+        <if test="type == 14">
+            clv_forecast_fourteen
+        </if>
+        <if test="type == 30">
+            clv_forecast_thirty
+        </if>
+        <if test="type == 60">
+            clv_forecast_sixty
+        </if>
+        WHERE
+       clv_uid = #{clvUid}        AND model = #{model}
+
+    </select>
+</mapper>

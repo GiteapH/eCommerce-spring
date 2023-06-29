@@ -11,4 +11,40 @@ from  repurchase INNER JOIN base_user_tag on base_user_tag.user_id = repurchase.
         <if test="province != null and province != ''">and province like  concat('%', #{province}, '%') GROUP BY city</if>
         <if test="city != null and city != ''">and city like concat('%', #{city}, '%')  GROUP BY county</if>
     </select>
+    <select id="RFMSubsetCities" resultType="com.example.ebusiness.controller.domain.Area">
+        select count(*) as counts  <if test="province == null and city == null  ">,province</if>
+        <if test="province != null and province != ''">,city</if>
+        <if test="city != null and city != ''">,county</if>
+        from  rfm INNER JOIN base_user_tag on base_user_tag.user_id = rfm.user_id  where rfm_tag = #{tag}
+        <if test="model==1">and `time` = 1</if>
+        <if test="model==2">and `time` = 2</if>
+        <if test="province == null and city == null  "> GROUP BY province</if>
+        <if test="province != null and province != ''">and province like  concat('%', #{province}, '%') GROUP BY city</if>
+        <if test="city != null and city != ''">and city like concat('%', #{city}, '%')  GROUP BY county</if>
+    </select>
+    <select id="SelectByGender" resultType="com.example.ebusiness.entity.typeCount">
+        SELECT gender,count(gender) counts from rfm
+            INNER JOIN base_user_tag on base_user_tag.user_id = rfm.user_id
+        WHERE
+              rfm_tag = #{tag}
+        <if test="address != null and address != ''">
+            and   address  like  concat('%', #{address}, '%')
+        </if>
+        and `time` = #{model}
+        GROUP BY gender;
+
+    </select>
+
+    <select id="SelectByAge" resultType="com.example.ebusiness.entity.typeCount">
+        SELECT age,count(age) counts from rfm
+        INNER JOIN base_user_tag on base_user_tag.user_id = rfm.user_id
+        WHERE
+        rfm_tag = #{tag}
+        <if test="address != null and address != ''">
+            and   address  like  concat('%', #{address}, '%')
+        </if>
+        and `time` = #{model}
+        GROUP BY age;
+
+    </select>
 </mapper>

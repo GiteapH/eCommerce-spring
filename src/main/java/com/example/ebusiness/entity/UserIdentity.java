@@ -1,5 +1,6 @@
 package com.example.ebusiness.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -26,6 +27,7 @@ public class UserIdentity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId("identity_uid")
     private Integer identityUid;
 
     private Integer isLoss;

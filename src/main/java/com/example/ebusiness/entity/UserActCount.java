@@ -1,5 +1,6 @@
 package com.example.ebusiness.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
@@ -27,6 +28,7 @@ public class UserActCount implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId("uid")
     private Integer uid;
 
     // 交易类型

@@ -67,4 +67,10 @@ public class RuleUserTagServiceImpl extends ServiceImpl<RuleUserTagMapper, RuleU
         List<timePriceNum> timePriceNums = ruleUserTagMapper.TimePriceNum(address, time);
         return timePriceNums;
     }
+
+    @Override
+    public RuleUserTag getById(String type, String userId) {
+        RuleUserTag r =  ruleUserTagMapper.getById(type,userId);
+        return r;
+    }
 }

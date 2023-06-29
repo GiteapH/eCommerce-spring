@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.UserCentralizedDistribution1Mapper">
+
+    <select id="getById" resultType="com.example.ebusiness.entity.UserCentralizedDistribution1">
+        select * from
+        <if test="type == 1">
+            user_centralized_distribution_1
+        </if>
+        <if test="type == 2">
+            user_centralized_distribution_2
+        </if>
+        <if test="type == 3">
+            user_centralized_distribution_3
+        </if>
+        <if test="type == 4">
+            user_centralized_distribution_4
+        </if>
+where `user` = #{id}
+    </select>
+</mapper>

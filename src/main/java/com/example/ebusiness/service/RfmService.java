@@ -29,4 +29,8 @@ public interface RfmService  extends IService<Rfm> {
     Map<String, List<Rfm>> getAllTagList(String address, String time);
 
     List<HeatMap> getHeatMap(String rfmTag, String time, String address);
+
+    Map<String, Double> getAvg(String tag,String time, String address);
+
+    List<Rfm> getById(String time, List<String>  userId);
 }

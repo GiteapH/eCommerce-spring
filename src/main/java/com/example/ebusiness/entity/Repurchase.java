@@ -1,5 +1,6 @@
 package com.example.ebusiness.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ public class Repurchase {
     private short repurchase;
     private String address;
     private Integer sku;
+    @TableId("id")
     private Integer id;
 
     private Integer purchaseNum;

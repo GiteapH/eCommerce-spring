@@ -55,17 +55,17 @@
        <where>
           <if test="address != null and address != '' ">
            address  like  concat('%', #{address}, '%')
-       </if>
+          </if>
        </where>
         GROUP BY repurchase ORDER BY counts desc;
 
     </select>
     <select id="getUsersRepur" resultType="com.example.ebusiness.entity.Repurchase">
-        SELECT id,purchase_num,last_act_date from repurchase where repurchase.id in (${userIdList,jdbcType=VARCHAR}) ORDER BY last_act_date;
+        SELECT id,purchase_num,last_act_date,last_act_time from repurchase where repurchase.id in (${userIdList,jdbcType=VARCHAR}) ORDER BY last_act_date,last_act_time;
     </select>
     <select id="getAllUserTrade" resultType="com.example.ebusiness.controller.domain.UserTrade">
         SELECT  last_act_date ,SUM(IF(repurchase=1,purchase_num,0)) AS repurchase_shop_num,SUM(IF(repurchase=0,purchase_num,0)) as no_repurchase_num_sum ,count(sku) as sku_num from repurchase
-       where
+       where true
         <if test="address != null and address != '' ">
             and  address  like  concat('%', #{address}, '%')
         </if>

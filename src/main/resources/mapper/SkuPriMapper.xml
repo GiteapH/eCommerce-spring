@@ -12,6 +12,16 @@
         </where>
     </select>
 
+    <select id="getAllPrice" resultType="com.example.ebusiness.controller.domain.sku">
+        SELECT sku,sum(sum_price) totalPrice,sum(num) totalCount from sku_price  GROUP BY sku ORDER BY totalPrice desc  LIMIT 100
+    </select>
+    <select id="getAllbyCount" resultType="com.example.ebusiness.controller.domain.sku">
+        SELECT sku,sum(sum_price) totalPrice,sum(num) totalCount from sku_price  GROUP BY sku ORDER BY totalCount desc  LIMIT 100
+    </select>
 
+
+    <select id="getAllAddress" resultType="com.example.ebusiness.controller.domain.AreaCounts">
+        select substring(address,1,2) addr,sum(num) counts from sku_price  group by substring(address,1,2) order by counts desc
+    </select>
 
 </mapper>

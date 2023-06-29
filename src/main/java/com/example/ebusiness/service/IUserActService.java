@@ -1,10 +1,9 @@
 package com.example.ebusiness.service;
 
+import com.example.ebusiness.controller.domain.User;
 import com.example.ebusiness.entity.UserAct;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.ebusiness.entity.typeCount;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,5 +17,6 @@ import java.util.List;
 public interface IUserActService extends IService<UserAct> {
 
 
-    List<typeCount> getUserTypeCount(String userId);
+    List<User> getUserTypeCount(String userId);
+    List<UserAct>getTypeCount(String userId);
 }

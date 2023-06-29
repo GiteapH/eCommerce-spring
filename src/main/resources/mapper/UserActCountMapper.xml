@@ -8,6 +8,9 @@
         <if test="address !=null and address !=''">
             address like  concat('%', #{address}, '%')
         </if>
+        <if test="userId != null and userId != ''">
+            uid =#{userId}
+        </if>
     </where> GROUP BY act_type
     </select>
     <select id="getTotalCount" resultType="java.lang.Integer">

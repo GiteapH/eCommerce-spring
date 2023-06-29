@@ -31,12 +31,17 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Api(tags = "商品流失回购")
 @RestController
+@CrossOrigin
 @RequestMapping("/user-identity")
 public class UserIdentityController {
 
     @Resource
     private IUserIdentityService userIdentityService;
-
+    @ApiOperation(value = "根据id获取")
+    @GetMapping("/getById")
+    public Result findOne(@RequestParam(value = "id") Integer id) {
+        return Result.success(userIdentityService.getById(id));
+    }
 
 
 

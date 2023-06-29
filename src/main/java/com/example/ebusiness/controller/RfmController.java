@@ -5,6 +5,7 @@ import com.example.ebusiness.controller.domain.HeatMap;
 import com.example.ebusiness.controller.domain.UsersRfm;
 import com.example.ebusiness.controller.domain.tagRfm;
 import com.example.ebusiness.entity.Rfm;
+import com.example.ebusiness.entity.RuleUserTag;
 import com.example.ebusiness.entity.typeCount;
 import com.example.ebusiness.service.RfmService;
 import io.swagger.annotations.Api;
@@ -19,10 +20,19 @@ import java.util.*;
 
 @Api(tags = "Rfm人物分析")
 @CrossOrigin
-@RestController()
+@RestController
 public class RfmController {
     @Autowired
     RfmService rfmService;
+
+
+    @GetMapping("/getUserById")
+    @ApiOperation("根据id,type获取")
+    public Result getById(@RequestParam(value = "time")String time,@RequestParam(value = "userId")List<String> userId
+    ){
+        List<Rfm>  r = rfmService.getById(time,userId);
+        return Result.success(r);
+    }
 
     @ApiOperation("复购用户中的rfm分布")
     @GetMapping("/selectByRFM")
@@ -90,6 +100,13 @@ public class RfmController {
         List<HeatMap> list = rfmService.getHeatMap(rfmTag,time,address);
 
         return Result.success(list);
+    }
+    @ApiOperation("获取平均累计消费，平均最近一次消费，平均消费频率")
+    @GetMapping("/getAvg")
+    public Result getAvg(@RequestParam(value = "tag") String tag,@RequestParam(value = "time") String time,@RequestParam(value = "address",required = false)String address){
+      Map<String,Double>map = rfmService.getAvg(tag,time,address);
+
+        return Result.success(map);
     }
 
 }

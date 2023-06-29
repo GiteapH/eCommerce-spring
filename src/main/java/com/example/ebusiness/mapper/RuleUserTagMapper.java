@@ -26,4 +26,7 @@ public interface RuleUserTagMapper extends BaseMapper<RuleUserTag> {
     List<activePrice> ActPriceNum(String address, String time);
 
     List<timePriceNum>  TimePriceNum(String address, String time);
- }
+
+    RuleUserTag getById(String type, String userId);
+
+}

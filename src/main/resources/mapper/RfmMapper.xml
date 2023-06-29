@@ -92,5 +92,20 @@ limit 150;
         GROUP BY recency_num,frequency_num ORDER BY consumption_avg
     </select>
 
-
+    <select id="SelectAvg" resultType="java.util.HashMap" >
+        SELECT AVG(consumption_capacity_num) avgConsumption ,AVG(recency_num) avgRecency ,AVG(frequency_num) avgFrequency
+        from
+             rfm
+        where
+              rfm_tag = #{tag} and `time` = #{time}
+        <if test="address != null and address != ''">
+            and   address  like  concat('%', #{address}, '%')
+        </if>
+    </select>
+    <select id="getById" resultType="com.example.ebusiness.entity.Rfm">
+        select * from rfm where `time` = #{time} and user_id in
+        <foreach item="item" collection="userId" separator="," open="(" close=")" index="">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

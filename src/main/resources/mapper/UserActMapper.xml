@@ -3,7 +3,11 @@
 <mapper namespace="com.example.ebusiness.mapper.UserActMapper">
 
 
-    <select id="UserTypeCount" resultType="com.example.ebusiness.entity.typeCount">
-        select u.act_type,count(act_type) as counts from user_act u where user =#{user} GROUP BY u.act_type
+    <select id="UserTypeCount" resultType="com.example.ebusiness.controller.domain.User">
+        select act_date actDate,act_type actType,count(act_date) counts from user_act where user = #{user} group by actDate,actType
+    </select>
+
+    <select id="TypeCount" resultType="com.example.ebusiness.entity.UserAct">
+        select * from user_act  where user =#{user}
     </select>
 </mapper>

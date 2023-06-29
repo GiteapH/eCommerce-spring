@@ -29,4 +29,6 @@ public interface IRuleUserTagService extends IService<RuleUserTag> {
     List<activePrice> getActivePrice(String address, String time);
 
     List<timePriceNum> getTimePrice(String address, String time);
+
+    RuleUserTag getById(String type, String userId);
 }

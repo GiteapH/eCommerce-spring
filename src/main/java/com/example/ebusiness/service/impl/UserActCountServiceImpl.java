@@ -25,8 +25,8 @@ public class UserActCountServiceImpl extends ServiceImpl<UserActCountMapper, Use
     UserActCountMapper userActCountMapper;
 
     @Override
-    public List<typeCount> getCount(String address) {
-        List<typeCount> typeCountList =   userActCountMapper.selectCountByaddress(address);
+    public List<typeCount> getCount(String address,String userId) {
+        List<typeCount> typeCountList =   userActCountMapper.selectCountByaddress(address,userId);
         return typeCountList;
     }
 
@@ -34,5 +34,11 @@ public class UserActCountServiceImpl extends ServiceImpl<UserActCountMapper, Use
     public Integer getTotalOrder(String address) {
       Integer count =   userActCountMapper.getTotalCount(address);
         return count;
+    }
+
+    @Override
+    public List<UserActCount> getUserTypeCount(String userId) {
+
+        return null;
     }
 }

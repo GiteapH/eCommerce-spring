@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface UserActCountMapper extends BaseMapper<UserActCount> {
 
-    List<typeCount> selectCountByaddress(String address);
+    List<typeCount> selectCountByaddress(String address,String userId);
 
     Integer getTotalCount(String address);
 }

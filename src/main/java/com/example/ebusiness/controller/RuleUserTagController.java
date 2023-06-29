@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletOutputStream;
 import java.net.URLEncoder;
 
-import com.example.ebusiness.entity.activePrice;
-import com.example.ebusiness.entity.activeTime;
-import com.example.ebusiness.entity.timePriceNum;
+import com.example.ebusiness.entity.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +19,6 @@ import java.util.List;
 import com.example.ebusiness.common.Result;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.ebusiness.service.IRuleUserTagService;
-import com.example.ebusiness.entity.RuleUserTag;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +39,14 @@ public class RuleUserTagController {
     @Resource
     private IRuleUserTagService ruleUserTagService;
 
+
+    @GetMapping("/getById")
+    @ApiOperation("根据id,type获取")
+    public Result getById(@RequestParam(value = "type")String type,@RequestParam(value = "userId")String userId
+            ){
+        RuleUserTag r = ruleUserTagService.getById(type,userId);
+        return Result.success(r);
+    }
 
 
     @RequestMapping(value = "/getTime",method = {RequestMethod.GET})

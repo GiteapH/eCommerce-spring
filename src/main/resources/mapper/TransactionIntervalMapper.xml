@@ -2,4 +2,71 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.ebusiness.mapper.TransactionIntervalMapper">
 
+    <select id="SelectLastTime" resultType="com.example.ebusiness.controller.domain.TimePeriod">
+        SELECT sum(IF(today=1,1,0)) as today,
+        sum(IF(inmonth=1,1,0)) as inmonth,
+        sum(IF(yesterday=1,1,0)) as yesterday,
+        sum(IF(inweek=1,1,0)) as inweek,
+        sum(IF(outmonth=1,1,0)) as outmonth
+        from
+        (SELECT ti_uid,
+        IF(DATEDIFF('2018-4-16',max(start_date))=1,1,0) as today,
+        IF(DATEDIFF('2018-4-16',max(start_date))=2,1,0) as yesterday,
+        IF(DATEDIFF('2018-4-16',max(start_date))&lt;=7,1,0) as inweek,
+        IF(DATEDIFF('2018-4-16',max(start_date))&lt;=30,1,0) as inmonth,
+        IF(DATEDIFF('2018-4-16',max(start_date))>30,1,0) as outmonth
+        from
+             <if test="type == 1">
+                 transaction_interval_1
+             </if>
+
+        <if test="type == 2">
+            transaction_interval_2
+        </if>
+
+        where
+        rfm_tag = #{tag}
+              <if test="address != null and address !='' ">
+                  and
+                  address LIKE   concat('%', #{address}, '%')
+               </if>
+                 group by ti_uid) t
+    </select>
+    
+    <select id="SelectTradingInterval" resultType="double">
+        SELECT avg(diff) from
+        <if test="type == 1">
+        transaction_interval_1
+        </if>
+        <if test="type == 2">
+            transaction_interval_2
+        </if>
+        where
+              rfm_tag = #{tag}
+        <if test="address != null and address !='' ">
+            and
+            address LIKE   concat('%', #{address}, '%')
+        </if>
+          and DATEDIFF('2018-4-16',start_date)&lt; #{day} ;
+
+    </select>
+    <select id="SelectIntervalVaries" resultType="com.example.ebusiness.controller.domain.Interval">
+        SELECT start_date,avg(diff) as AVERAGE
+        from
+        <if test="type == 1">
+            transaction_interval_1
+        </if>
+        <if test="type == 2">
+            transaction_interval_2
+        </if>
+        where      rfm_tag = #{tag}
+        <if test="address != null and address !='' ">
+            and
+            address LIKE   concat('%', #{address}, '%')
+        </if>
+        group by start_date
+        ORDER BY start_date;
+
+    </select>
+
 </mapper>

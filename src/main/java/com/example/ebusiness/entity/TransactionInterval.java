@@ -19,12 +19,12 @@ import lombok.Setter;
  * </p>
  *
  * @author 程序员小于
- * @since 2023-05-30
+ * @since 2023-06-12
  */
 @Getter
 @Setter
-@TableName("transaction_interval")
-@ApiModel(value = "TransactionInterval对象", description = "")
+
+@ApiModel(value = "TransactionInterval1对象", description = "")
 public class TransactionInterval implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,4 +48,8 @@ public class TransactionInterval implements Serializable {
     @ApiModelProperty("距下一次交易天数")
     @Alias("距下一次交易天数")
     private Integer diff;
+
+    private String rfmTag;
+
+    private String address;
 }

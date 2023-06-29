@@ -127,4 +127,17 @@ public class RfmServiceImpl extends ServiceImpl<RfmMapper, Rfm> implements RfmSe
         List<HeatMap> list =  rfmMapper.getHeatMap(rfmTag,time,address);
         return list;
     }
+
+    @Override
+    public Map<String, Double> getAvg(String tag, String time,String address) {
+        Map<String, Double> map =rfmMapper.SelectAvg(tag,time,address);
+        return map;
+    }
+
+
+    @Override
+    public List<Rfm>  getById(String time, List<String>  userId) {
+        List<Rfm>  r = rfmMapper.getById(time,userId);
+        return r;
+    }
 }

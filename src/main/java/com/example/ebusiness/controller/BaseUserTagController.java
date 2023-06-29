@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.ebusiness.controller.domain.Area;
+import com.example.ebusiness.entity.typeCount;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author 程序员小于
  * @since 2023-05-10
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/base-user-tag")
 public class BaseUserTagController {
@@ -56,50 +58,33 @@ public class BaseUserTagController {
         List<Area> subCity = baseUserTagService.getSubsetCities(province,city,repurchase);
         return Result.success(subCity);
     }
-
-
-
-
-    /**
-     * 导出接口
-     */
-    @GetMapping("/export")
-    public void export(HttpServletResponse response) throws Exception {
-        // 从数据库查询出所有的数据
-        List<BaseUserTag> list = baseUserTagService.list();
-        // 在内存操作，写出到浏览器
-        ExcelWriter writer = ExcelUtil.getWriter(true);
-
-        // 一次性写出list内的对象到excel，使用默认样式，强制输出标题
-        writer.write(list, true);
-
-        // 设置浏览器响应的格式
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
-        String fileName = URLEncoder.encode("BaseUserTag信息表", "UTF-8");
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
-
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        out.close();
-        writer.close();
-
+    @ApiOperation("/RFM中的子级城市云图 分布图/柱状图")
+    @GetMapping("/RFMSubsetCities")
+    public Result RFMSubsetCities(@RequestParam(value = "province",required = false)String province
+            ,@RequestParam(value = "city",required = false)String city,
+            @RequestParam(value = "tag",required = false)String tag,
+                                  @RequestParam(value = "model",defaultValue = "1") String model) {
+        List<Area> subCity = baseUserTagService.RFMSubsetCities(province,city,tag,model);
+        return Result.success(subCity);
     }
 
-    /**
-     * excel 导入
-     *
-     * @param file
-     * @throws Exception
-     */
-    @PostMapping("/import")
-    public Result imp(MultipartFile file) throws Exception {
-        InputStream inputStream = file.getInputStream();
-        ExcelReader reader = ExcelUtil.getReader(inputStream);
-        // 通过 javabean的方式读取Excel内的对象，但是要求表头必须是英文，跟javabean的属性要对应起来
-        List<BaseUserTag> list = reader.readAll(BaseUserTag.class);
 
-        baseUserTagService.saveBatch(list);
-        return Result.success();
+    @ApiOperation("")
+    @GetMapping("/SelectByGender")
+    public Result SelectByGender(@RequestParam(value = "tag") String tag,@RequestParam(value = "address",required = false)String address
+            ,@RequestParam(value = "model",defaultValue = "1")String model){
+        List<typeCount> list=baseUserTagService.SelectByGender(tag,address,model);
+        return Result.success(list);
     }
+    @ApiOperation("")
+    @GetMapping("/SelectByAge")
+    public Result SelectByAge(@RequestParam(value = "tag") String tag,@RequestParam(value = "address",required = false)String address,
+                              @RequestParam(value = "model",defaultValue = "1")String model){
+        List<typeCount> list=baseUserTagService.SelectByAge(tag,address,model);
+        return Result.success(list);
+    }
+
+
+
 
 }

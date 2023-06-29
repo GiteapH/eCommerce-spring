@@ -27,4 +27,8 @@ public interface RfmMapper extends BaseMapper<Rfm> {
     List<Rfm> getAllTagList(String rfmTag, String address, String time);
 
     List<HeatMap> getHeatMap(String rfmTag, String time, String address);
+
+    HashMap<String,Double> SelectAvg(String tag,String time,String address);
+
+    List<Rfm> getById(String time, List<String>  userId);
 }

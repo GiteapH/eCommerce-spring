@@ -26,6 +26,12 @@ public class RepurController {
     @Autowired
     RepurService repurService;
 
+
+    @GetMapping("/getById")
+    public Result findOne(@RequestParam(value = "id") Integer id) {
+        return Result.success(repurService.getById(id));
+    }
+
 //    @ApiOperation("获取某地区复购率")
     @GetMapping("/repurchaseRate")
     public Result getRepurRate(@RequestParam(value = "address",required = false)String address){

@@ -1,5 +1,6 @@
 package com.example.ebusiness.mapper;
 
+import com.example.ebusiness.controller.domain.User;
 import com.example.ebusiness.entity.UserAct;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.ebusiness.entity.typeCount;
@@ -17,6 +18,7 @@ import java.util.*;
  */
 public interface UserActMapper extends BaseMapper<UserAct> {
 
-    List<typeCount> UserTypeCount(String user);
+    List<User> UserTypeCount(String user);
+    List<UserAct> TypeCount(String user);
 
 }

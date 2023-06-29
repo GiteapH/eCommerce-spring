@@ -1,5 +1,6 @@
 package com.example.ebusiness.service.impl;
 
+import com.example.ebusiness.controller.domain.User;
 import com.example.ebusiness.entity.UserAct;
 import com.example.ebusiness.entity.typeCount;
 import com.example.ebusiness.mapper.BaseUserTagMapper;
@@ -25,8 +26,14 @@ public class UserActServiceImpl extends ServiceImpl<UserActMapper, UserAct> impl
     UserActMapper userActMapper;
 
     @Override
-    public List<typeCount> getUserTypeCount(String userId) {
-        List<typeCount> typeCountList = userActMapper.UserTypeCount(userId);
+    public List<User> getUserTypeCount(String userId) {
+        List<User> typeCountList = userActMapper.UserTypeCount(userId);
+        return typeCountList;
+    }
+
+    @Override
+    public List<UserAct> getTypeCount(String userId) {
+        List<UserAct> typeCountList = userActMapper.TypeCount(userId);
         return typeCountList;
     }
 }
