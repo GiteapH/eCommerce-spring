@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.SkuJumpLossMapper">
+
+    <select id="getSkuJumpLoss" resultType="com.example.ebusiness.controller.domain.skuJump">
+        SELECT t1.sku,watch_num_1,watch_num_0,watch_num_1/(watch_num_0+watch_num_1)*100 as jump_loss from (SELECT
+        sku,watch_num watch_num_0 from sku_jump_loss WHERE watch = 0) t1 inner JOIN (SELECT sku,watch_num watch_num_1
+        from sku_jump_loss WHERE watch = 1) t2 on t2.sku=t1.sku <if test="sku!='' and sku != null">and t1.sku = #{sku}</if>  ORDER BY t1.sku limit 1000
+
+
+
+    </select>
+    <select id="getSkuWatch" resultType="com.example.ebusiness.controller.domain.skuwatch">
+        SELECT watch,count(watch) counts from sku_jump_loss  <if test="sku!='' and sku != null">where sku = #{sku}</if> GROUP
+        BY watch
+    </select>
+</mapper>

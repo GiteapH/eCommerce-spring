@@ -1,5 +1,6 @@
 package com.example.ebusiness.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.ebusiness.controller.domain.HeatMap;
 import com.example.ebusiness.controller.domain.UsersRfm;
@@ -8,6 +9,7 @@ import com.example.ebusiness.entity.Rfm;
 import com.example.ebusiness.entity.typeCount;
 import com.example.ebusiness.mapper.RfmMapper;
 import com.example.ebusiness.service.RfmService;
+import com.example.ebusiness.utils.PageParam;
 import com.example.ebusiness.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,5 +141,21 @@ public class RfmServiceImpl extends ServiceImpl<RfmMapper, Rfm> implements RfmSe
     public List<Rfm>  getById(String time, List<String>  userId) {
         List<Rfm>  r = rfmMapper.getById(time,userId);
         return r;
+    }
+
+    @Override
+    public IPage<Rfm> searchPage(PageParam<Rfm> pageParam, String rfmTag,String address,String time) {
+        return rfmMapper.searchPage(pageParam,rfmTag,address,time);
+    }
+
+    @Override
+    public Integer pageTotal(String rfmTag, String address, String time) {
+        return rfmMapper.searchTotal(rfmTag,address,time);
+    }
+
+    @Override
+    public Integer getTagCounts(String rfmTag, String address) {
+        Integer a =rfmMapper.getTagCounts(rfmTag,address);
+        return a;
     }
 }

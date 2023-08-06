@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
@@ -200,5 +201,29 @@ public class RepurServiceImpl extends ServiceImpl<RepurMapper, Repurchase> imple
 //        log.info("走了数据库");
 
         return weekList;
+    }
+
+    @Override
+    public  Integer getMapRepur(String address){
+
+
+        String key = REDIS_KEY+"MAP:"+ address;
+
+        Integer OrderCounts;
+        //获取缓存
+        OrderCounts = RedisUtils.getCacheObject(key);
+
+        if(OrderCounts != null){
+
+            System.out.println("走了缓存");
+            return OrderCounts;
+        }
+        //缓存不在则查询数据库
+        OrderCounts =   repurMapper.getMapRepur(address);
+        System.out.println(OrderCounts);
+        //设置缓存
+        RedisUtils.setCacheObject(key, OrderCounts,7200, TimeUnit.SECONDS);
+
+        return OrderCounts;
     }
 }

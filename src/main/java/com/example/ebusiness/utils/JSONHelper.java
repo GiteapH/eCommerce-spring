@@ -1,6 +1,6 @@
 package com.example.ebusiness.utils;
 
-import com.alibaba.fastjson.JSONObject;
+
 import com.example.ebusiness.common.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
@@ -8,31 +8,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 public class JSONHelper {
 
-
-//    public static void main(String[] args) {
-//        String s = ResolveJsonFileToString("110000.json");
-//        System.out.println("sss=" + s);
-//
-//    }
-
-
-    /**
-     * 将文件流转为json对象，文件存放路径与配置文件路径规范一致
-     *
-     * @param
-     * @return
-     * @throws
-     */
-    public static Object ResolveJsonFileToObject(String filename) {
-        String str = ResolveJsonFileToString(filename);
-        JSONObject jo = JSONObject.parseObject(str);
-        return jo;
-    }
 
 
     /**
@@ -47,11 +27,9 @@ public class JSONHelper {
         BufferedReader br = null;
         String result = null;
         try {
-
-//            br = new BufferedReader(new InputStreamReader(getInputStream(path)));
             InputStream resourceAsStream = JSONHelper.class.getResourceAsStream("/config/" + filename);
             assert resourceAsStream != null;
-            br = new BufferedReader(new InputStreamReader(resourceAsStream, "UTF-8"));
+            br = new BufferedReader(new InputStreamReader(resourceAsStream, StandardCharsets.UTF_8));
             StringBuffer message = new StringBuffer();
             String line = null;
             while ((line = br.readLine()) != null) {
@@ -62,13 +40,11 @@ public class JSONHelper {
             }
             String defaultString = message.toString();
             result = defaultString.replace("\r\n", "").replaceAll(" +", "");
-//            log.info("result={}", result);
-
         } catch (IOException e) {
             try {
                 ClassLoader classloader = Thread.currentThread().getContextClassLoader();
                 InputStream in = classloader.getResourceAsStream(filename);
-                br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+                br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
                 StringBuffer message = new StringBuffer();
                 String line = null;
                 while ((line = br.readLine()) != null) {
@@ -82,7 +58,7 @@ public class JSONHelper {
                 }
                 String defaultString = message.toString();
                 result = defaultString.replace("\r\n", "").replaceAll(" +", "");
-//                log.debug("for jar result={}", result);
+
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -93,10 +69,6 @@ public class JSONHelper {
     }
 
 
-    private String getFileName(String filename) {
-        filename = this.getClass().getClassLoader().getResource(filename).getPath();
-        return filename;
-    }
 
     private static File getResFile(String filename) throws FileNotFoundException {
 
@@ -119,20 +91,6 @@ public class JSONHelper {
         return file;
     }
 
-    /**
-     * 通过文件名获取classpath路径下的文件流
-     *
-     * @param
-     * @return
-     * @throws
-     */
-    private static FileInputStream getResFileStream(String filename) throws FileNotFoundException {
-        FileInputStream fin = null;
 
-        File file = getResFile(filename);
-        log.info("getResFile path={}", file);
-        fin = new FileInputStream(file);
-        return fin;
-    }
 
 }

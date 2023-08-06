@@ -2,6 +2,7 @@ package com.example.ebusiness;
 
 
 import com.example.ebusiness.utils.PathUtils;
+import io.github.asleepyfish.annotation.EnableChatGPT;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @EnableSwagger2
+@EnableChatGPT
 @SpringBootApplication
 @MapperScan("com.example.ebusiness.mapper")
 public class EBusinessApplication {

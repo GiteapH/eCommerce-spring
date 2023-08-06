@@ -1,5 +1,8 @@
 package com.example.ebusiness.entity;
 
+import cn.hutool.core.annotation.Alias;
+import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -20,4 +23,15 @@ public class Rfm implements Serializable {
     private Integer consumptionCapacityScore;
     private Integer recencyScore;
     private Integer frequencyScore;
+
+    @TableField(exist = false)
+    private String gender;
+    @TableField(exist = false)
+    private Integer age;
+    @TableField(exist = false)
+    private String province;
+    @TableField(exist = false)
+    private String city;
+    @TableField(exist = false)
+    private String county;
 }

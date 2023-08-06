@@ -1,6 +1,8 @@
 package com.example.ebusiness.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.ebusiness.controller.domain.CenDIs;
+import com.example.ebusiness.controller.domain.MaxCounts;
 import com.example.ebusiness.controller.domain.SkuInfo;
 import com.example.ebusiness.entity.CentralizedDistribution;
 import com.example.ebusiness.entity.activeMap;
@@ -53,5 +55,23 @@ public class CenDisServiceImpl extends ServiceImpl<CenDisMapper, CentralizedDist
     public List<activeMap> getAll() {
         List<activeMap> mapList =  cenDisMapper.getAll();
         return mapList;
+    }
+
+    @Override
+    public List<CenDIs> getAllCounts(String address, String sku) {
+        List<CenDIs> list = cenDisMapper.getAllCounts(address,sku);
+        return list;
+    }
+
+    @Override
+    public MaxCounts getMaxAddressNum(String province, String city, String sku) {
+        MaxCounts maxCounts = cenDisMapper.getMaxAddressNum(province,city,sku);
+        return maxCounts;
+    }
+
+    @Override
+    public MaxCounts getMax(String sku) {
+        MaxCounts maxCounts = cenDisMapper.getMax(sku);
+        return maxCounts;
     }
 }

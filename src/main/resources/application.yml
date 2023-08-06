@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:  jdbc:mysql://localhost:3306/mall?characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    url:  jdbc:mysql://10.10.74.225:3306/mall?characterEncoding=utf-8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: lyp057403
+    password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
         #      initial-size: 5
@@ -19,7 +19,7 @@ spring:
         max-wait: 60000
         time-between-eviction-runs-millis: 60000
         min-evictable-idle-time-millis: 30000
-        validation-query: SELECT 1
+#        validation-query: SELECT 1
         test-while-idle: true
         test-on-borrow: true
         test-on-return: false
@@ -57,3 +57,13 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+chatgpt:
+  token: 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 #必填
+  proxy-host: 127.0.0.1 #需要代理时必填
+  proxy-port: 7890 #需要代理时必填
+#  model: text-davinci-003 #可选
+  chat-model: gpt-3.5-turbo #可选
+#  retries: 10 #可选，默认为5
+#  session-expiration-time: 30 #可选，不填则会话永不过期
+#  base-url: https://apps.ichati.cn/1d6f32f8-b59d-46f8-85e9-7d434bxxxxxx/ #可选，默认为https://api.openai.com/，请记住务必以/结尾
+

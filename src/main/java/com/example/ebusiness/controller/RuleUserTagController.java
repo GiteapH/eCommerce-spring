@@ -11,6 +11,8 @@ import java.net.URLEncoder;
 
 import com.example.ebusiness.entity.*;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
@@ -39,9 +41,13 @@ public class RuleUserTagController {
     @Resource
     private IRuleUserTagService ruleUserTagService;
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "类型判断"),
+            @ApiImplicitParam(name = "userId", value = "用户id")
 
+    })
     @GetMapping("/getById")
-    @ApiOperation("根据id,type获取")
+    @ApiOperation("根据id,type获取用户信息")
     public Result getById(@RequestParam(value = "type")String type,@RequestParam(value = "userId")String userId
             ){
         RuleUserTag r = ruleUserTagService.getById(type,userId);

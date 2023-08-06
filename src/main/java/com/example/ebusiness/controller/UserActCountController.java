@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.ebusiness.controller.domain.User;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +36,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @author 程序员小于
  * @since 2023-05-16
  */
+
 @RestController
 @CrossOrigin
+@Api("用户行为对应数量接口")
 @RequestMapping("/user-act-count")
 public class UserActCountController {
 
@@ -71,46 +74,5 @@ public class UserActCountController {
         return Result.success(typeCountList);
     }
 
-    /**
-     * 导出接口
-     */
-    @GetMapping("/export")
-    public void export(HttpServletResponse response) throws Exception {
-        // 从数据库查询出所有的数据
-        List<UserActCount> list = userActCountService.list();
-        // 在内存操作，写出到浏览器
-        ExcelWriter writer = ExcelUtil.getWriter(true);
-
-        // 一次性写出list内的对象到excel，使用默认样式，强制输出标题
-        writer.write(list, true);
-
-        // 设置浏览器响应的格式
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
-        String fileName = URLEncoder.encode("UserActCount信息表", "UTF-8");
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
-
-        ServletOutputStream out = response.getOutputStream();
-        writer.flush(out, true);
-        out.close();
-        writer.close();
-
-    }
-
-    /**
-     * excel 导入
-     *
-     * @param file
-     * @throws Exception
-     */
-    @PostMapping("/import")
-    public Result imp(MultipartFile file) throws Exception {
-        InputStream inputStream = file.getInputStream();
-        ExcelReader reader = ExcelUtil.getReader(inputStream);
-        // 通过 javabean的方式读取Excel内的对象，但是要求表头必须是英文，跟javabean的属性要对应起来
-        List<UserActCount> list = reader.readAll(UserActCount.class);
-
-        userActCountService.saveBatch(list);
-        return Result.success();
-    }
 
 }

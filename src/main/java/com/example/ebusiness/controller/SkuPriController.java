@@ -2,7 +2,9 @@ package com.example.ebusiness.controller;
 
 import com.example.ebusiness.common.Result;
 import com.example.ebusiness.controller.domain.AreaCounts;
+import com.example.ebusiness.controller.domain.CtmUnitPrice;
 import com.example.ebusiness.controller.domain.sku;
+import com.example.ebusiness.entity.Rfm;
 import com.example.ebusiness.entity.SkuPrice;
 import com.example.ebusiness.service.SkuPriService;
 import io.swagger.annotations.Api;
@@ -19,7 +21,19 @@ public class SkuPriController {
     @Autowired
     SkuPriService skuPriService;
 
-
+    @GetMapping("/getUserByUser")
+    @ApiOperation("根据id,type获取")
+    public Result getById(@RequestParam(value = "userId")String userId
+    ){
+        List<SkuPrice>  r = skuPriService.getAllById(userId);
+        return Result.success(r);
+    }
+    @GetMapping("/getCtmUnitPrice")
+    @ApiOperation("商品某地的总销售和客单价")
+    public Result getCtmUnitPrice(@RequestParam(value = "address",required = false ) String address,@RequestParam(value = "sku",required = false ) String sku) {
+      List<CtmUnitPrice> list  = skuPriService.getCtmUnitPrice(address,sku);
+        return Result.success(list);
+    }
 
     @ApiOperation(value = "根据地址获取商品该地区的总销售金额")
     @GetMapping("/getpricebyaddress")
@@ -30,21 +44,21 @@ public class SkuPriController {
 
     @ApiOperation(value = "获取商品销售量及销售金额按销售额排序")
     @GetMapping("/getAllPrice")
-    public Result getAllPrice() {
-       List<sku> list =  skuPriService.getAll();
+    public Result getAllPrice(@RequestParam(value = "address",required = false ) String address) {
+       List<sku> list =  skuPriService.getAll(address);
         return Result.success(list);
     }
 
     @ApiOperation(value = "获取商品销售量及销售金额按销售量排序")
     @GetMapping("/getAllPricebyCount")
-    public Result getAllbyCount() {
-        List<sku> list =  skuPriService.getAllbyCount();
+    public Result getAllbyCount(@RequestParam(value = "address",required = false ) String address) {
+        List<sku> list =  skuPriService.getAllbyCount(address);
         return Result.success(list);
     }
     @ApiOperation(value = "获取地区销售量词云图")
     @GetMapping("/getAllAddress")
-    public Result getAllAddress() {
-        List<AreaCounts> list =  skuPriService.getAllAddress();
+    public Result getAllAddress(@RequestParam(value = "address",required = false ) String address) {
+        List<AreaCounts> list =  skuPriService.getAllAddress(address);
         return Result.success(list);
     }
 

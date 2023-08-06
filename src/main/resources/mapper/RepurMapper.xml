@@ -85,4 +85,11 @@
         GROUP BY `week`,time_point;
 
     </select>
+    <select id="getMapRepur" resultType="java.lang.Integer">
+        select count(*) from (SELECT count(id)  FROM `repurchase` where repurchase=1
+         <if test="address!=null">
+            and address like concat('%',#{address},'%')
+        </if>
+        GROUP BY `id`)t
+    </select>
 </mapper>

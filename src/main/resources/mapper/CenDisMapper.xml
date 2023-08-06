@@ -80,8 +80,73 @@ having  counts > 1000
     <select id="getAll" resultType="com.example.ebusiness.entity.activeMap">
         select count(*) as counts ,province from  centralized_distribution group by province order by counts desc  limit 10
     </select>
-<!--    <select id="CountBySexAddress" >-->
-<!--        select sum(less5) as less5,sum(less10) as less10,sum(less15) as less15,sum(less20) as less20,count(*) as total from  centralized_distribution where male = 1 and address LIKE '%上海%'-->
-<!--    </select>-->
+    <select id="getAllCounts" resultType="com.example.ebusiness.controller.domain.CenDIs">
+        SELECT SUM(female) femaleCount,SUM(male) maleCount,SUM(address_num) addressNumCount,SUM(less5) less5Count,SUM(less10) less10Count,SUM(less20) less20Count
+        <if test="address!=null and address != ''">
+            ,city
+        </if>
+        <if test="address==null or address == ''">
+            ,province
+        </if>
+        from
+             centralized_distribution
+        <where>
+            <if test="address != null and address != ''">
+                  address like concat('%', #{address}, '%')
+            </if>
+            <if test="sku != null and sku != ''">
+          and  sku = #{sku}
+            </if>
+        </where>
+       <if test="address!=null and address != ''">
+           group by city
+       </if>
+       <if test="address==null or address == ''">
+           group by province
+       </if>
 
+    </select>
+<select id="getMax" resultType="com.example.ebusiness.controller.domain.MaxCounts" >
+    select MAX(address_num) as `max`
+        ,province
+    from  centralized_distribution
+    <where>
+        <if test="sku != null and sku != '' ">
+             sku =#{sku}
+        </if>
+    </where>
+    group by
+        province
+    ORDER BY `max` desc limit 1
+</select>
+    <select id="getMaxAddressNum" resultType="com.example.ebusiness.controller.domain.MaxCounts" >
+        select MAX(address_num) as `max`
+        <if test="province != null and province != '' ">
+            ,city
+        </if>
+        <if test="city != null and city != ''  ">
+            ,county
+        </if>
+        from  centralized_distribution
+        <where>
+            <if test="province != null and province != '' ">
+                province like  concat('%', #{province}, '%')
+            </if>
+            <if test="city != null and city != '' ">
+                city like  concat('%', #{city}, '%')
+            </if>
+            <if test="sku != null and sku != '' ">
+              and  sku =#{sku}
+            </if>
+        </where>
+        group by
+        <if test="province != null and province != '' ">
+            city
+        </if>
+        <if test="city != null and city != '' ">
+            county
+        </if>
+        ORDER BY `max` desc limit 1
+
+    </select>
 </mapper>

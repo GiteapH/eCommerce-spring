@@ -6,22 +6,51 @@
     <select id="getPriceByAddress" resultType="Double">
         select sum(sum_price)*num from sku_price
         <where>
-        <if test="address != null and address != ''">
-          address  like  concat('%', #{address}, '%')
-        </if>
+            <if test="address != null and address != ''">
+                address like concat('%', #{address}, '%')
+            </if>
         </where>
     </select>
 
     <select id="getAllPrice" resultType="com.example.ebusiness.controller.domain.sku">
-        SELECT sku,sum(sum_price) totalPrice,sum(num) totalCount from sku_price  GROUP BY sku ORDER BY totalPrice desc  LIMIT 100
+        SELECT sku,sum(sum_price) totalPrice,sum(num) totalCount from sku_price
+        <if test="address != null and address != ''">
+            where address like concat('%', #{address}, '%')
+        </if>
+        GROUP BY sku ORDER BY totalPrice desc LIMIT 100
     </select>
     <select id="getAllbyCount" resultType="com.example.ebusiness.controller.domain.sku">
-        SELECT sku,sum(sum_price) totalPrice,sum(num) totalCount from sku_price  GROUP BY sku ORDER BY totalCount desc  LIMIT 100
+        SELECT sku,sum(sum_price) totalPrice,sum(num) totalCount from sku_price
+        <if test="address != null and address != ''">
+            where address like concat('%', #{address}, '%')
+        </if>
+        GROUP BY sku ORDER BY totalCount desc LIMIT 100
     </select>
 
 
     <select id="getAllAddress" resultType="com.example.ebusiness.controller.domain.AreaCounts">
-        select substring(address,1,2) addr,sum(num) counts from sku_price  group by substring(address,1,2) order by counts desc
+        select substring(address, 1, 2) addr, sum(num) counts
+        from sku_price
+        group by substring(address, 1, 2)
+        order by counts desc
+    </select>
+    <select id="getAllById" resultType="com.example.ebusiness.entity.SkuPrice">
+        select *
+        from sku_price
+        where sku = #{userId}
+    </select>
+    <select id="getCtmUnitPrice" resultType="com.example.ebusiness.controller.domain.CtmUnitPrice">
+        SELECT sku,SUM(sum_price) ac_sales,SUM(sum_price)/count(sku) ctm_unit_price,sum(num) sumNum FROM `sku_price`
+
+        <where>
+            <if test="address != null and address != ''">
+                address like concat('%', #{address}, '%')
+            </if>
+            <if test="sku != null and sku != ''">
+                and sku =#{sku}
+            </if>
+        </where>
+        GROUP BY sku ORDER BY ac_sales desc LIMIT 1000
     </select>
 
 </mapper>

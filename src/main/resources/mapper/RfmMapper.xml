@@ -108,4 +108,28 @@ limit 150;
             #{item}
         </foreach>
     </select>
+    <select id="searchPage" resultType="com.example.ebusiness.entity.Rfm">
+        select * from rfm r INNER JOIN base_user_tag b ON r.user_id = b.user_id
+
+        <if test="rfmTag != null and rfmTag != ''">
+            and r.rfm_tag = #{rfmTag}
+        </if>
+
+        <if test="address != null and address != ''">
+            and   address  like  concat('%', #{address}, '%')
+        </if> and r.time = #{time}
+
+    </select>
+    <select id="searchTotal" resultType="Integer">
+        select count(*) from rfm r INNER JOIN base_user_tag b ON r.user_id = b.user_id  and r.rfm_tag = #{rfmTag}
+        <if test="address != null and address != ''">
+            and   address  like  concat('%', #{address}, '%')
+        </if> and r.time = #{time}
+    </select>
+    <select id="getTagCounts" resultType="java.lang.Integer">
+        SELECT count(*) from (SELECT count(user_id) from rfm WHERE rfm_tag = #{rfmTag}
+        <if test="address != null and address != ''">
+        and   address  like  concat('%', #{address}, '%')
+    </if>  GROUP BY user_id) t
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.example.ebusiness.service.impl;
 
 import com.example.ebusiness.controller.domain.User;
+import com.example.ebusiness.controller.domain.skuVo;
 import com.example.ebusiness.entity.UserAct;
 import com.example.ebusiness.entity.typeCount;
 import com.example.ebusiness.mapper.BaseUserTagMapper;
@@ -34,6 +35,12 @@ public class UserActServiceImpl extends ServiceImpl<UserActMapper, UserAct> impl
     @Override
     public List<UserAct> getTypeCount(String userId) {
         List<UserAct> typeCountList = userActMapper.TypeCount(userId);
+        return typeCountList;
+    }
+
+    @Override
+    public List<skuVo> skuByCounts(String user, String actType) {
+        List<skuVo> typeCountList = userActMapper.skuByCounts(user,actType);
         return typeCountList;
     }
 }

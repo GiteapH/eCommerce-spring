@@ -27,11 +27,11 @@ public class InitRuuner implements ApplicationRunner {
 
         // 发送一次异步的web请求，来初始化 tomcat连接
         ThreadUtil.execAsync(() -> {
-            RedisUtils.ping(); //redis初始化连接
-            actMapper.select1();
-            log.info("启动项目数据库启动查询成功" );
-            HttpUtil.get("http://localhost:9999/");
-            log.info("启动项目tomcat连接查询成功");
+//            RedisUtils.ping(); //redis初始化连接
+//            actMapper.select1();
+//            log.info("启动项目数据库启动查询成功" );
+//            HttpUtil.get("http://localhost:9999/");
+//            log.info("启动项目tomcat连接查询成功");
         });
     }
 }

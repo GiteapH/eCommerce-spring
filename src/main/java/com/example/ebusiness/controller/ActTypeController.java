@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 @Api(tags = "用户行为接口")
 @CrossOrigin
-@RestController()
+@RestController
 public class ActTypeController {
     @Autowired
     ActService actService;
@@ -67,7 +67,7 @@ public class ActTypeController {
      * @return
      */
     @GetMapping("/countByTypeAddress")
-    @ApiOperation(value = "根据用户行为类型及地址获取总数" )
+    @ApiOperation(value = "根据用户行为类型及地址获取对应的总数" )
     public Result getCountByTypeAndAddress(@RequestParam(value = "actType" ,required = false) String actType
             ,@RequestParam(value = "address" ,required = false) String address ){
         Integer count = actService.getCountByType(actType,address);

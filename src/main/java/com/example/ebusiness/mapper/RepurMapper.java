@@ -23,4 +23,6 @@ public interface RepurMapper extends BaseMapper<Repurchase> {
     List<UserTrade> getAllUserTrade(String address);
 
     List<ListWeek> getListByWeek(String address, String repurchase);
+
+    Integer getMapRepur(String address);
 }

@@ -1,6 +1,8 @@
 package com.example.ebusiness.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.ebusiness.controller.domain.CenDIs;
+import com.example.ebusiness.controller.domain.MaxCounts;
 import com.example.ebusiness.controller.domain.SkuInfo;
 import com.example.ebusiness.entity.CentralizedDistribution;
 import com.example.ebusiness.entity.activeMap;
@@ -23,4 +25,11 @@ public interface CenDisService extends IService<CentralizedDistribution> {
     List<activeMap> getByProCitCoun(String province, String city);
 
     List<activeMap> getAll();
+
+    List<CenDIs> getAllCounts(String address, String sku);
+
+    MaxCounts getMaxAddressNum(String province,String city, String sku);
+
+    MaxCounts  getMax(String sku);
+
 }

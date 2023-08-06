@@ -10,4 +10,7 @@
     <select id="TypeCount" resultType="com.example.ebusiness.entity.UserAct">
         select * from user_act  where user =#{user}
     </select>
+    <select id="skuByCounts" resultType="com.example.ebusiness.controller.domain.skuVo">
+        SELECT sku,count(sku) counts from user_act WHERE user = #{user} and act_type = #{actType}  GROUP BY sku
+    </select>
 </mapper>
