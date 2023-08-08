@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.ebusiness.common.Result;
 import com.example.ebusiness.controller.domain.HeatMap;
 import com.example.ebusiness.controller.domain.UsersRfm;
+import com.example.ebusiness.controller.domain.rfmCount;
 import com.example.ebusiness.controller.domain.tagRfm;
 import com.example.ebusiness.entity.Rfm;
 import com.example.ebusiness.entity.RuleUserTag;
@@ -184,5 +185,11 @@ public class RfmController {
     }
 
 
+    @ApiOperation("rfm得分区间用户数")
+    @GetMapping("/getRangeCounts")
+    public Result getRangeCounts(@RequestParam(value = "R") Integer[] R,@RequestParam(value = "F") Integer[] F,@RequestParam(value = "M") Integer[] M,@RequestParam(value = "address",required = false)String address,@RequestParam Integer time){
+        List<rfmCount> rfmCounts = rfmService.selectCount(R, F, M, address,time);
+        return Result.success(rfmCounts);
+    }
 
 }

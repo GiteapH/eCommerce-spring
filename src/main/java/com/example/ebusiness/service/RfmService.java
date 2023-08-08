@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.example.ebusiness.controller.domain.HeatMap;
 import com.example.ebusiness.controller.domain.UsersRfm;
+import com.example.ebusiness.controller.domain.rfmCount;
 import com.example.ebusiness.controller.domain.tagRfm;
 import com.example.ebusiness.entity.Rfm;
 import com.example.ebusiness.entity.typeCount;
@@ -42,4 +43,5 @@ public interface RfmService  extends IService<Rfm> {
 
     Integer getTagCounts(String rfmTag, String address);
 
+    List<rfmCount>  selectCount(Integer[] r, Integer[] f, Integer[] m, String address,Integer time);
 }

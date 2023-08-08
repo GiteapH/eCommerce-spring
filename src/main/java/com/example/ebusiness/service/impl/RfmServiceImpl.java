@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.ebusiness.controller.domain.HeatMap;
 import com.example.ebusiness.controller.domain.UsersRfm;
+import com.example.ebusiness.controller.domain.rfmCount;
 import com.example.ebusiness.controller.domain.tagRfm;
 import com.example.ebusiness.entity.Rfm;
 import com.example.ebusiness.entity.typeCount;
@@ -157,5 +158,10 @@ public class RfmServiceImpl extends ServiceImpl<RfmMapper, Rfm> implements RfmSe
     public Integer getTagCounts(String rfmTag, String address) {
         Integer a =rfmMapper.getTagCounts(rfmTag,address);
         return a;
+    }
+
+    @Override
+    public List<rfmCount> selectCount(Integer[] r, Integer[] f, Integer[] m, String address,Integer time) {
+        return baseMapper.selectCount(r[0],r[1], f[0],f[1], m[0],m[1], address,time);
     }
 }

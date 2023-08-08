@@ -132,4 +132,15 @@ limit 150;
         and   address  like  concat('%', #{address}, '%')
     </if>  GROUP BY user_id) t
     </select>
+    <select id="selectCount" resultType="com.example.ebusiness.controller.domain.rfmCount">
+        select rfm_tag tag,count(rfm_tag) count from rfm WHERE
+        recency_score BETWEEN #{rb} and #{ra}
+        AND frequency_score BETWEEN #{fb} and #{fa}
+        AND consumption_capacity_score BETWEEN #{mb} and #{ma}
+        and time = #{time}
+        <if test="address != null and address != ''">
+            and   address  like  concat('%', #{address}, '%')
+        </if>
+        group by rfm_tag
+    </select>
 </mapper>

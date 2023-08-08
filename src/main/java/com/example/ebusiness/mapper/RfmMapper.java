@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.ebusiness.controller.domain.HeatMap;
 import com.example.ebusiness.controller.domain.UsersRfm;
+import com.example.ebusiness.controller.domain.rfmCount;
 import com.example.ebusiness.controller.domain.tagRfm;
 import com.example.ebusiness.entity.Rfm;
 import com.example.ebusiness.entity.typeCount;
@@ -40,4 +41,7 @@ public interface RfmMapper extends BaseMapper<Rfm> {
     Integer searchTotal(@Param("rfmTag") String rfmTag,String address,String time);
 
     Integer getTagCounts(String rfmTag, String address);
-}
+
+
+    List<rfmCount>  selectCount(Integer rb,Integer ra,Integer fb,Integer fa,Integer mb,Integer ma,String address,Integer time);
+ }
