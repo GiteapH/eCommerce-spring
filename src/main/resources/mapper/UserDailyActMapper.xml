@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.UserDailyActMapper">
+
+    <select id="getAllByDate" resultType="com.example.ebusiness.entity.UserDailyAct">
+        SELECT * FROM `user_daily_act`
+        <where>
+            date BETWEEN #{start} and #{end}
+
+            and  user_id = #{user}
+        </where>
+
+        order by date asc
+    </select>
+    <select id="getAllByGroup" resultType="com.example.ebusiness.entity.UserDailyAct">
+        select rfm,date,SUM(view) as view,SUM(cart) as cart,SUM(fan) as fan,SUM(buy) as buy,SUM(complain) as complain,SUM(comment) as comment,SUM(consult) as consult,avg(buy_line) as buy_line,AVG(`interval`) as `interval` from user_daily_act
+        <where>
+            date BETWEEN #{start} and #{end}
+            and  rfm = #{group}
+        </where>
+        GROUP BY rfm,date  ORDER BY date asc
+    </select>
+</mapper>
