@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ebusiness.mapper.ChangeCalculateMapper">
+
+
+    <select id="getScoreAVG" resultType="com.example.ebusiness.controller.domain.ScoreAVG">
+        SELECT
+            SUM( consumption_capacity_score_diff )/ count(*) ccd,
+            SUM( recency_score_diff )/ count(*) rsd,
+            SUM( frequency_score_diff )/ count(*) fsd
+        FROM
+            `change_calculate`
+    </select>
+    <select id="getTagChange" resultType="com.example.ebusiness.controller.domain.TagChange">
+        SELECT
+            after_tag,
+            before_tag,
+            count( after_tag ) count
+        FROM
+            change_calculate
+        WHERE
+            after_tag != before_tag
+        GROUP BY
+            after_tag,
+            before_tag
+    </select>
+    <select id="getTagDec" resultType="com.example.ebusiness.controller.domain.TagDec">
+        SELECT
+            before_tag tag,bc-ac diff
+        FROM (select before_tag,count(before_tag) bc from change_calculate group by before_tag) t1 inner join (select after_tag,count(after_tag) ac from change_calculate group by after_tag) t2 on t1.before_tag = t2.after_tag
+    </select>
+</mapper>

@@ -21,7 +21,7 @@ import java.util.Properties;
 @Slf4j
 public class CodeGenerator {
 
-    private static final String TABLE = "streaming_update_user_act";  // 表名
+    private static final String TABLE = "change_calculate";  // 表名
 
 
     /*=========================  下面的不用改动  =========================*/
